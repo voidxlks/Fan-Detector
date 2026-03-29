@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fan Detector Pro</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+      background: white;
+    }
+
+    h1 {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      padding: 15px;
+      width: 300px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      border: 2px solid black;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 15px 25px;
+      font-size: 18px;
+      cursor: pointer;
+      border: 2px solid black;
+      border-radius: 8px;
+      background: white;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+
+    #barContainer {
+      width: 300px;
+      height: 20px;
+      border: 2px solid black;
+      border-radius: 10px;
+      margin-top: 15px;
+      overflow: hidden;
+      display: none;
+    }
+
+    #bar {
+      height: 100%;
+      width: 0%;
+      background: black;
+    }
+
+    #result {
+      margin-top: 25px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Fan Detector 🔍</h1>
+
+<input type="text" id="channel" placeholder="Paste your YouTube channel link...">
+<button onclick="startScan()">Scan Channel</button>
+
+<div id="status"></div>
+
+<div id="barContainer">
+  <div id="bar"></div>
+</div>
+
+<div id="result"></div>
+
+<script>
+function startScan() {
+  const input = document.getElementById("channel").value;
+  const status = document.getElementById("status");
+  const bar = document.getElementById("bar");
+  const barContainer = document.getElementById("barContainer");
+  const result = document.getElementById("result");
+
+  if (input.trim() === "") {
+    alert("Paste your channel link first!");
+    return;
+  }
+
+  result.innerText = "";
+  bar.style.width = "0%";
+  barContainer.style.display = "block";
+
+  let progress = 0;
+
+  const messages = [
+    "Connecting to YouTube...",
+    "Scanning subscribers...",
+    "Analyzing fans...",
+    "Checking loyalty levels...",
+    "Finalizing results..."
+  ];
+
+  let msgIndex = 0;
+  status.innerText = messages[msgIndex];
+
+  const interval = setInterval(() => {
+    progress += Math.random() * 15;
+    bar.style.width = progress + "%";
+
+    if (progress > (msgIndex + 1) * 20 && msgIndex < messages.length - 1) {
+      msgIndex++;
+      status.innerText = messages[msgIndex];
+    }
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      bar.style.width = "100%";
+      status.innerText = "Scan Complete ✅";
+
+      const fans = Math.floor(Math.random() * 10000) + 100;
+      const superfans = Math.floor(fans * 0.2);
+
+      result.innerText = 
+        "Fans Detected: " + fans + 
+        " | Super Fans: " + superfans;
+    }
+  }, 300);
+}
+</script>
+
+</body>
+</html>
